@@ -1,0 +1,43 @@
+# Rust / cargo build outputs
+/target
+**/*.rs.bk
+Cargo.lock.bak
+
+# Per-machine cargo build acceleration (linker / rustflags). LLVM
+# install path is hard-coded to the local machine; do not commit.
+.cargo/config.toml
+
+# Local IDE / editor scratch
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Build / debug artifacts that landed in the workspace root
+/build_full.txt
+/bld.log
+/build_out.txt
+/clean_out.txt
+/clean_err.txt
+/who.txt
+
+# Runtime / per-machine state
+# `.a2a/` is the per-project marker created by `a2a init`; it accumulates
+# stale config backups and ad-hoc test prompts during development.
+# `consultations/` holds saved cursor-agent transcripts (potentially
+# containing API responses) — never commit.
+/.a2a/
+/consultations/
+*.bak-*
+
+# Developer-side Cursor config used while building a2a.
+# End users get their own .cursor/ via `a2a init`; this one is the
+# author's working set and is not part of the published surface.
+/.cursor/
+
+# Internal design / requirements doc — not published.
+# Source comments reference "SPEC §N.M" by section number for historical
+# context, but the document itself stays in the author's working tree.
+/SPEC.md

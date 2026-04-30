@@ -1,0 +1,82 @@
+<!-- a2a template version: {{A2A_VERSION}} (bundled with the a2a binary; do not hand-edit. Run `a2a init --force` after upgrading a2a to refresh this file.) -->
+
+# a2a multi-AI consultation protocol (project rule)
+
+This rule is auto-installed by `a2a init`. It encodes the hard constraints
+that make a2a useful as a decision-quality safeguard rather than a
+confirmation-bias laundering tool. Project-specific extensions belong in a
+separate overlay rule that imports this one.
+
+## Trigger
+
+Trigger automatic consultation only for **spec-lock category** decisions:
+
+- Architectural / API / ABI / schema / wire-format choices
+- Security model and capability boundaries
+- Long-term migration paths
+- Anything the project's governance docs explicitly mark as requiring external validation
+
+**Do not trigger** for implementation details (naming, helper extraction,
+log wording, comment polish) or for decisions the user has already made.
+When in doubt between spec-lock and implementation detail, prefer to
+consult.
+
+## Required flow (agent behavior)
+
+1. Announce in chat **before** launching anything: trigger reason +
+   model list + the fact that implementation is paused.
+2. Write the prompt file using `.cursor/templates/a2a-prompt-template.md`
+   with explicit frontmatter (`topic`, `context_files`).
+3. Run `a2a ask <topic> --prompt-file <path>` and wait for all models.
+4. Read every raw answer file under `consultations/<dir>/`.
+5. Write a synthesis containing **all** of:
+   - Agreement points (cite each model by name)
+   - Disagreement points itemized with side-by-side reasoning
+   - Any new candidate proposed by a model
+   - Agent recommendation with 3-5 reasoning bullets
+   - Path to the raw answers directory
+6. Ask the user via `AskQuestion`. The candidates must reflect the
+   consultation, not just the agent's prior preference.
+7. Record the user's decision per the project's normal process.
+
+## Anti-patterns (permanent red lines)
+
+The following are forbidden and constitute a violation:
+
+- **Synthesis cherry-picks** the model that agreed with the agent's prior preference without surfacing dissent.
+- **Synthesis collapses disagreement** into "the models broadly agreed" without itemizing where they differed.
+- **Synthesis omits the raw-answers path**, depriving the user of audit access.
+- **Skipping `AskQuestion`** and proceeding to implementation based on synthesis alone.
+- **Triggering a2a for non-spec-lock work** (implementation details).
+- **Continuing to implement code** while consultation is in flight.
+- **Silent fallback**: hiding from the synthesis the fact that a profile failed and another was used.
+- **Ignoring user opt-out**: if the user said "skip a2a", do not consult.
+- **Loose synthesis**: paraphrasing raw answers without per-model attribution.
+- **Re-running consultation as confirmation**: if a previous consultation already covered the question, cite the prior `consultations/<dir>/` instead of re-asking.
+
+## Profile fallback expectations
+
+When `a2a` switches profiles automatically (because the configured one hit
+quota / billing / auth errors):
+
+- The fallback transition is printed to stderr by a2a and recorded in
+  `consultations/<dir>/meta.toml`.
+- The agent's synthesis must surface the actual profile used per model when
+  it differs from the configured one — billing implications are user-facing.
+- If a profile was deleted by the SPEC §6.3 KeyDead path (account-level
+  failure: 401 / billing / quota), the agent must mention this in chat
+  and tell the user the recovery: register a fresh key with
+  `a2a auth add <name>` (the deleted profile is gone — there is no
+  `auth enable` re-enable path; SPEC §17.1 #18).
+
+## All-models-failed handling
+
+If a2a returns "all profiles in chain failed" for a model alias, the agent
+must:
+
+1. Not silently drop that model from the synthesis.
+2. State explicitly: "<alias> answer is missing because <reason>".
+3. Offer the user a choice: proceed with synthesis from the remaining models, or pause and let the user fix authentication / quota first.
+
+Never proceed to `AskQuestion` pretending all models answered when some did
+not.

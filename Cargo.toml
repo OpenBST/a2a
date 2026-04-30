@@ -1,0 +1,50 @@
+[package]
+name = "a2a"
+version = "0.1.0"
+edition = "2024"
+authors = ["OpenBST"]
+description = "Multi-AI consultation bridge: parallel cursor-agent calls with profile management."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/OpenBST/a2a"
+readme = "README.md"
+keywords = ["cursor", "ai", "consultation", "cli"]
+
+[lib]
+name = "a2a"
+path = "src/lib.rs"
+
+[[bin]]
+name = "a2a"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.102"
+chrono = { version = "0.4.44", features = ["serde"] }
+clap = { version = "4.6.1", features = ["derive"] }
+dialoguer = { version = "0.12.0", default-features = false, features = ["password"] }
+directories = "6.0.0"
+rusqlite = { version = "0.39.0", features = ["bundled"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+tempfile = "3.27.0"
+thiserror = "2.0.18"
+tokio = { version = "1.52.1", features = ["rt-multi-thread", "macros", "process", "fs", "io-util", "time"] }
+toml = "1.1.2"
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
+uuid = { version = "1.23.1", features = ["v4", "serde"] }
+walkdir = "2.5.0"
+which = "8.0.2"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+opt-level = 3
+# Keep default panic = "unwind" so every Drop fires on panic — Child::
+# kill_on_drop, FileLock::Drop, IsolatedWorkspace::Drop are all RAII
+# guarantees that abort would silently undo. ~50-200 KB unwind-table
+# overhead is a tiny price for a short-lived CLI binary.
+
+[profile.dev]
+opt-level = 1
