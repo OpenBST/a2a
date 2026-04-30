@@ -41,3 +41,6 @@ Thumbs.db
 # Source comments reference "SPEC §N.M" by section number for historical
 # context, but the document itself stays in the author's working tree.
 /SPEC.md
+
+# Locally staged release artifacts (uploaded as GitHub Release assets).
+/dist/
