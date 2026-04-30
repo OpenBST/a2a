@@ -9,9 +9,9 @@ Now, within cursor, you can enable an agent to learn about the solutions or view
 
 *现在，你可以在cursor里，让一个Agent对某个问题或事情，了解其它Agent的解决方案或观点，并将其汇总。这意味着，你的Agent有了自己的“智囊团”。*
 
-`a2a` is a small Rust command-line tool that lets an Agent (or a human) consult **multiple Cursor large-language models** in parallel from a single prompt — Opus, GPT-5, Gemini, and any other model the Cursor account is entitled to use — and persists each raw answer for side-by-side review. a2a does not synthesize answers for you; it is just a "distribute the question, collect the answers" tool.
+`a2a` is a Windows command-line tool written in Rust. It allows an Agent (or a human) to simultaneously query **multiple Cursor large language models** - Opus, GPT-5, Gemini, and any other models authorized for use by the Cursor account - through a single prompt, and then save each original answer for comparative review. a2a does not integrate the answers for you; it is merely a tool for "distributing questions and collecting answers".
 
-*`a2a` 是一个小型 Rust 命令行工具，它允许 Agent（或人类）通过单一提示并行咨询**多个 Cursor 大型语言模型**——Opus、GPT-5、Gemini 以及 Cursor 账户有权使用的任何其他模型——然后保存每个原始答案以供对比审查。a2a 不会替你整合答案，它只是一个"分发问题、回收答案"的工具。*
+*`a2a` 是一个用 Rust 编写的Windows命令行工具，它允许 Agent（或人类）通过单一提示并行咨询**多个 Cursor 大型语言模型**——Opus、GPT-5、Gemini 以及 Cursor 账户有权使用的任何其他模型——然后保存每个原始答案以供对比审查。a2a 不会替你整合答案，它只是一个"分发问题、回收答案"的工具。*
 
 ## Features / 特性
 
