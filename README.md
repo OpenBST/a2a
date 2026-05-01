@@ -37,15 +37,19 @@ After the installation and setup are completed, you can use a2a in the Cursor co
 
 *安装并设置完成后，你可以在Cursor的对话中使用a2a，例如，你可以输入提示词：`对本项目进行三模型代码审查`*
 
+Next, your Agent will **automatically invoke** a2a:
+
+*接下来你的Agent会**自动调用**a2a：*
+
 ```text
-$ a2a ask cache-design --prompt-file prompts/cache-design.md \
+$ a2a ask cache-design --prompt-file prompts/code-check.md \
         --models opus,gpt5,gemini --profiles personal,team
 
-Topic:      cache-design
+Topic:      code-check
 Models:     ["opus", "gpt5", "gemini"]
 Mode:       (per-alias default_mode)
-Prompt:     prompts/cache-design.md
-Output dir: D:\my-project\consultations\20260430-225014-371-cache-design-d0a8b9
+Prompt:     prompts/code-check.md
+Output dir: D:\my-project\consultations\20260430-225014-371-code-check-d0a8b9
 
 [opus]   profile=personal → calling cursor-agent (phase=fresh)
 [gpt5]   profile=personal → calling cursor-agent (phase=fresh)
@@ -62,7 +66,7 @@ Output dir: D:\my-project\consultations\20260430-225014-371-cache-design-d0a8b9
 [gemini] ok
 
 Done. 3 succeeded / 0 failed.
-Inspect raw answers in: D:\my-project\consultations\20260430-225014-371-cache-design-d0a8b9
+Inspect raw answers in: D:\my-project\consultations\20260430-225014-371-code-check-d0a8b9
 ```
 
 After the run, that consultation directory contains:
