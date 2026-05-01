@@ -37,8 +37,6 @@ After the installation and setup are completed, you can use a2a in the Cursor co
 
 *安装并设置完成后，你可以在Cursor的对话中使用a2a，例如，你可以输入提示词：`对本项目进行三模型代码审查`*
 
-
-
 ```text
 $ a2a ask cache-design --prompt-file prompts/cache-design.md \
         --models opus,gpt5,gemini --profiles personal,team
