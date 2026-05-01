@@ -1,7 +1,7 @@
 # a2a (Agent to Agent) 
 # — Let your agent reference multiple models' answers in parallel / 让你的 Agent 同时参考多个模型的回答
 
-📖 详细使用说明 / Detailed guide: [English](GUIDE.en_us.md) · [中文](GUIDE.zh_cn.md)
+📖 Detailed guide / 详细使用说明: [English](GUIDE.en_us.md) · [中文](GUIDE.zh_cn.md)
 
 ---
 
