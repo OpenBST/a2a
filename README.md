@@ -25,10 +25,10 @@ Now, within cursor, you can enable an agent to learn about the solutions or view
 
 [中文]
 - **一个提示 → N 个模型**——通过 `cursor-agent` 命令行并行运行。
-- **每次调用的 profile 链**（`--profiles a,b,c`）——账户级故障（401 / 计费 / 配额）会自动跳至下一个 profile，并把失效那个就地删除。
+- **设置profile调用链**（`--profiles a,b,c`）——账户级故障（401 / 计费 / 配额）会自动跳至下一个 profile，并把失效那个就地删除。
 - **自包含的二进制**——profile 凭据和模型别名都存在一个内置的 SQLite 文件里（无需 `*.toml` 配置）；Cursor skill / 规则 / prompt 模板通过 `include_str!` 编进二进制。Windows 分发一个 `a2a.exe`、Unix 分发一个 `a2a`，仅此而已。
 - **原始答案审计追踪**——每次咨询都会在 `consultations/<timestamp>-<topic>-<uuid>/` 目录下保存每个模型的 markdown 答案，以及一个 `meta.toml`（包含使用的 profile、session_id、fallback chain、可选的字符预算）。
-- **Cursor IDE 集成**——`a2a init` 会安装三个 skill + 一个规则 + 一个 prompt 模板，教会主 agent *何时*触发咨询、*如何*格式化提示、*如何*综合多模型答案、以及如何引导首次配置（用户在新的 Cursor 对话中输入 `a2a_guide`）。
+- **Cursor IDE 集成**——`a2a init` 会安装三个 skill + 一个规则 + 一个 prompt 模板，教会主 agent **何时** 触发咨询、**如何** 格式化提示、**如何** 综合多模型答案、以及如何引导首次配置（用户在新的 Cursor 对话中输入 `a2a_guide`）。
 - **一键安装向导**——双击一次 `a2a.exe`，它会把自己加入 user PATH、检测 Cursor CLI，并把用户导向 agent 驱动的安装流程。无需安装包。
 
 ## Sample run / 运行示例
@@ -78,9 +78,9 @@ opus.answer.md      gpt5.answer.md      gemini.answer.md
 prompt.md           meta.toml
 ```
 
-The Cursor main agent reads the three answer files, synthesizes the agreement / disagreement points, and presents the user with the final pick via an `AskQuestion`. The user decides; a2a's job is done once the raw answers are on disk.
+The Cursor main agent reads the three answer files, synthesizes the agreement / disagreement points, and presents the user with the final pick via an `AskQuestion`. A2a's job is done once the raw answers are on disk.
 
-*Cursor 主 agent 会读这三份原始答案、综合一致/分歧点，然后通过 `AskQuestion` 让用户拍板。用户决定，a2a 只负责把每份原始答案存储为文件。*
+*Cursor 主 agent 会读这三份原始答案、综合一致/分歧点，然后通过 `AskQuestion` 让用户拍板。a2a 只负责把每份原始答案存储为文件。*
 
 ## License / 许可
 

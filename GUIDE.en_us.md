@@ -20,8 +20,8 @@ This is the detailed usage guide for `a2a`. For a quick overview of what a2a is,
 
 ### Prerequisites
 
-- **Cursor CLI** (`cursor-agent`). a2a wraps this; you must install it separately. Download from <https://cursor.com/cli>; verify in a terminal with `cursor-agent --version`.
-- **(For building from source only)** Rust 1.85+ via <https://rustup.rs/>.
+- **Cursor CLI** (`cursor-agent`). a2a wraps this; you must install it separately. Download from [https://cursor.com/cli](https://cursor.com/cli); verify in a terminal with `cursor-agent --version`.
+- **(For building from source only)** Rust 1.85+ via [https://rustup.rs/](https://rustup.rs/).
 
 ### Option A — pre-built binary (recommended)
 
@@ -45,33 +45,23 @@ Output: `target/release/a2a.exe` (Windows) or `target/release/a2a` (Unix). On Wi
 Once a2a is on PATH and Cursor CLI is installed, the rest of setup is driven by Cursor's **main agent**. You don't have to know any CLI flags.
 
 1. Open Cursor on your project. Start a fresh chat.
-
 2. Paste one of these prompts and send:
-
-   English:
-   > Run `a2a --agent` in the terminal and follow its output.
-
+  English:
+  > Run `a2a --agent` in the terminal and follow its output.
    中文:
-   > 在终端运行 `a2a --agent`，根据它的输出执行下一步。
-
+  > 在终端运行 `a2a --agent`，根据它的输出执行下一步。
 3. The agent will:
-   1. Run `a2a --agent` and read the structured `[health]` block to discover the current state (whether the project is initialised, whether `cursor-agent` is reachable, how many profiles + aliases are registered).
-   2. Run `a2a init --path <workspace>` to install three Cursor skills + one rule + one prompt template into the project.
-   3. Read the imperative `[next-step]` block from `a2a init`'s output and tell **you** to do the next thing.
-
+  1. Run `a2a --agent` and read the structured `[health]` block to discover the current state (whether the project is initialised, whether `cursor-agent` is reachable, how many profiles + aliases are registered).
+  2. Run `a2a init --path <workspace>` to install three Cursor skills + one rule + one prompt template into the project.
+  3. Read the imperative `[next-step]` block from `a2a init`'s output and tell **you** to do the next thing.
 4. **Restart Cursor.** (Close every window, then reopen on the project.) Cursor only loads new skills under `.cursor/skills/` on startup, so this restart is mandatory.
-
 5. Open a **new chat**. As your first message, type the literal word — by itself, no extra context:
-
-   ```
+  ```
    a2a_guide
-   ```
-
+  ```
    The freshly-installed `a2a-setup-guide` skill activates and walks you through:
-
-   1. Pasting your Cursor API key. The agent pipes it via stdin (`a2a auth add ... --from-stdin`) so it never appears in chat logs or shell history.
-   2. Choosing 1–3 model aliases (the agent runs `a2a models available` to see what your account can use, then proposes sensible defaults like `opus` / `gpt5` / `gemini`).
-
+  1. Pasting your Cursor API key. The agent pipes it via stdin (`a2a auth add ... --from-stdin`) so it never appears in chat logs or shell history.
+  2. Choosing 1–3 model aliases (the agent runs `a2a models available` to see what your account can use, then proposes sensible defaults like `opus` / `gpt5` / `gemini`).
 6. Done. From now on, the main agent uses the `a2a-multi-ai-consult` skill (when to consult) and `a2a-operator` skill (how to translate natural-language requests into a2a commands) automatically. You can keep working normally; whenever the agent hits a hard architectural decision it'll trigger `a2a ask` on its own and synthesize the answers for you.
 
 ## 3. Manual CLI setup (alternative)
@@ -236,16 +226,18 @@ Installs the bundled Cursor templates into a project. Each template is written t
 
 Run a consultation. Common flags:
 
-| Flag | Default | Meaning |
-|---|---|---|
-| `--models a,b,c` | first-added alias | Aliases to consult (comma-separated). |
-| `--profiles a,b,c` | resolved default profile | Profile chain for this run. KeyDead deletes the head and advances; transient errors retry on the same profile. |
-| `--mode agent\|plan` | per-alias `default_mode` | cursor-agent's `--mode` passthrough. |
-| `--sandbox enabled\|disabled` | (cursor-agent default) | passthrough. |
-| `--no-readonly-prefix` | off | Skip the read-only directive injection. |
-| `--dry-run` | off | Print the cursor-agent commands; don't run. |
-| `--budget-only` | off | Print a char-count estimate; don't run. |
-| `--log-budget` | off | Attach a `[models.budget]` table to `meta.toml`. |
+
+| Flag                         | Default                  | Meaning                                                                                                        |
+| ---------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `--models a,b,c`             | first-added alias        | Aliases to consult (comma-separated).                                                                          |
+| `--profiles a,b,c`           | resolved default profile | Profile chain for this run. KeyDead deletes the head and advances; transient errors retry on the same profile. |
+| `--mode agent|plan`          | per-alias `default_mode` | cursor-agent's `--mode` passthrough.                                                                           |
+| `--sandbox enabled|disabled` | (cursor-agent default)   | passthrough.                                                                                                   |
+| `--no-readonly-prefix`       | off                      | Skip the read-only directive injection.                                                                        |
+| `--dry-run`                  | off                      | Print the cursor-agent commands; don't run.                                                                    |
+| `--budget-only`              | off                      | Print a char-count estimate; don't run.                                                                        |
+| `--log-budget`               | off                      | Attach a `[models.budget]` table to `meta.toml`.                                                               |
+
 
 ### `a2a auth ...`
 
@@ -328,10 +320,12 @@ If the **last** profile in the credentials store gets KeyDead-deleted mid-run, e
 
 a2a has two zero-subcommand entry points that share most of the logic but differ in interactivity:
 
-| Invocation | When | Behaviour |
-|---|---|---|
-| `a2a` | Human double-click on Windows; or just typing `a2a` in a terminal | PATH check + cursor-agent check + quick-start hints. Asks Y/n to fix PATH issues. **Pauses for Enter** if stdin is a TTY (so the console doesn't snap shut). |
-| `a2a --agent` | Cursor's main agent invokes from its terminal tool | Same situational checks, but never pauses, never prompts. Output is a structured `[health]` block (machine-parseable `key: value` lines) + a `[next-step for you, the agent]` block (imperative English). |
+
+| Invocation    | When                                                              | Behaviour                                                                                                                                                                                                 |
+| ------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `a2a`         | Human double-click on Windows; or just typing `a2a` in a terminal | PATH check + cursor-agent check + quick-start hints. Asks Y/n to fix PATH issues. **Pauses for Enter** if stdin is a TTY (so the console doesn't snap shut).                                              |
+| `a2a --agent` | Cursor's main agent invokes from its terminal tool                | Same situational checks, but never pauses, never prompts. Output is a structured `[health]` block (machine-parseable `key: value` lines) + a `[next-step for you, the agent]` block (imperative English). |
+
 
 The two modes are idempotent: running them after everything is already configured prints a clean health report and exits without mutating state.
 
@@ -339,7 +333,7 @@ The two modes are idempotent: running them after everything is already configure
 
 ### `cursor-agent NOT in PATH`
 
-a2a depends on Cursor's CLI for the actual model calls. Install from <https://cursor.com/cli> and reopen your terminal. `a2a doctor` will confirm.
+a2a depends on Cursor's CLI for the actual model calls. Install from [https://cursor.com/cli](https://cursor.com/cli) and reopen your terminal. `a2a doctor` will confirm.
 
 ### `path_installed: no` in `a2a --agent` output
 
@@ -380,11 +374,13 @@ a2a init --force
 
 `~/.a2a/credentials.db` is the **only** persistent state a2a owns. Three tables:
 
-| Table | Purpose |
-|---|---|
-| `profiles` | Plaintext API keys + a few timestamps. SPEC §2.1 forbids at-rest encryption; the threat model trusts the local user (the file is 0600 on Unix, user-private ACL on Windows). |
-| `meta` | `default_profile` only (the profile name `a2a auth use` writes). |
-| `model_aliases` | User-global model alias registry, shared across every a2a project on this machine. |
+
+| Table           | Purpose                                                                                                                                                                      |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `profiles`      | Plaintext API keys + a few timestamps. The threat model trusts the local user (the file is 0600 on Unix, user-private ACL on Windows). |
+| `meta`          | `default_profile` only (the profile name `a2a auth use` writes).                                                                                                             |
+| `model_aliases` | User-global model alias registry, shared across every a2a project on this machine.                                                                                           |
+
 
 ### What `a2a init` creates inside a project
 
@@ -397,20 +393,19 @@ a2a init --force
 
 ### What's hardcoded (no override knob)
 
-The runtime constants below are baked into the binary at build time (SPEC §11). Changing them requires rebuilding `a2a` from source:
+The runtime constants below are baked into the binary at build time. Changing them requires rebuilding `a2a` from source:
 
-| Constant | Value |
-|---|---|
-| `PARALLEL` | `true` (model aliases run concurrently) |
-| `OUTPUT_ROOT` | `"consultations"` (project-relative) |
-| `STAGGER_SECS` | `3` (seconds between successive alias spawns) |
-| `INLINE_PROMPT_MAX_BYTES` | `24_000` (above this → indirect prompt) |
 
-There is no `a2a --config <path>`, no `A2A_CONFIG` env var, and no project-level `.a2a/config.toml`. This is intentional — see [SPEC.md](SPEC.md) §11 / §17.1 for the rationale.
+| Constant                  | Value                                         |
+| ------------------------- | --------------------------------------------- |
+| `PARALLEL`                | `true` (model aliases run concurrently)       |
+| `OUTPUT_ROOT`             | `"consultations"` (project-relative)          |
+| `STAGGER_SECS`            | `3` (seconds between successive alias spawns) |
+| `INLINE_PROMPT_MAX_BYTES` | `24_000` (above this → indirect prompt)       |
 
 ### See also
 
-- [SPEC.md](SPEC.md) — authoritative behavioural specification.
 - [CHANGELOG.md](CHANGELOG.md) — release history.
 - [README.md](README.md) — short project overview.
 - The three skills installed by `a2a init` (under `<project>/.cursor/skills/`) — agent-side documentation for consultation flow, operations, and first-time setup.
+

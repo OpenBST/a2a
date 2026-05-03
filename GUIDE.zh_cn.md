@@ -382,7 +382,7 @@ a2a init --force
 
 | 表 | 作用 |
 |---|---|
-| `profiles` | 明文 API key + 几个时间戳。SPEC §2.1 永久排除 at-rest 加密；本工具的威胁模型信任本机用户（文件 Unix 0600；Windows 用户级 ACL）。 |
+| `profiles` | 明文 API key + 几个时间戳。本工具的威胁模型信任本机用户（文件 Unix 0600；Windows 用户级 ACL）。 |
 | `meta` | 现在只有 `default_profile`（`a2a auth use` 写入的 profile 名）。 |
 | `model_aliases` | user-global 的 model alias 注册表，本机所有 a2a 项目共用同一份。 |
 
@@ -395,9 +395,7 @@ a2a init --force
 - `<project>/.cursor/rules/40-a2a-protocol.mdc` — protocol 规则。
 - `<project>/.cursor/templates/a2a-prompt-template.md` — 写新 consultation prompt 时复制的模板。
 
-### 哪些参数硬编码（无 override 旋钮）
-
-下面这些 runtime 常量都在编译期写死（SPEC §11）。要改就得重 build a2a：
+### 哪些参数硬编码（要改就得重 build a2a）：
 
 | 常量 | 值 |
 |---|---|
@@ -406,11 +404,8 @@ a2a init --force
 | `STAGGER_SECS` | `3`（相邻两个 alias spawn 的间隔） |
 | `INLINE_PROMPT_MAX_BYTES` | `24_000`（超过即切 indirect prompt） |
 
-**没有** `a2a --config <path>`、**没有** `A2A_CONFIG` 环境变量、**没有**项目级 `.a2a/config.toml`。这是有意的简化 — 详见 [SPEC.md](SPEC.md) §11 / §17.1。
-
 ### 另请参阅
 
-- [SPEC.md](SPEC.md) — 权威行为规格。
 - [CHANGELOG.md](CHANGELOG.md) — 发布历史。
 - [README.md](README.md) — 项目简介。
 - `a2a init` 装的三个 skill（在 `<project>/.cursor/skills/` 下）— agent 侧的咨询流程、操作翻译、首次配置向导文档。
